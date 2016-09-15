@@ -1,0 +1,35 @@
+
+Color number	Binary value	BRIGHT 0 (RGB)	BRIGHT 1 (RGB)	Color name
+0	000	#000000	#000000	black
+1	001	#0000CD	#0000FF	blue
+2	010	#CD0000	#FF0000	red
+3	011	#CD00CD	#FF00FF	magenta
+4	100	#00CD00	#00FF00	green
+5	101	#00CDCD	#00FFFF	cyan
+6	110	#CDCD00	#FFFF00	yellow
+7	111	#CDCDCD	#FFFFFF	white
+
+;
+; COLORS
+;
+INK_BLK     equ     0
+INK_BLU     equ     1
+INK_RED     equ     2
+INK_MAG     equ     3
+INK_GRN     equ     4
+INK_CYN     equ     5
+INK_YEL     equ     6
+INK_WHT     equ     7
+
+PAP_BLK     equ     0
+PAP_BLU     equ     8
+PAP_RED     equ     16
+PAP_MAG     equ     24
+PAP_GRN     equ     32     
+PAP_CYN     equ     40
+PAP_YEL     equ     48
+PAP_WHT     equ     56
+
+BRIGHT      equ     64
+FLASH       equ     128
+

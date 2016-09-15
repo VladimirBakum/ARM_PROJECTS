@@ -1,0 +1,1 @@
+lmflash --verify --reset Release\Exe\mylcd.bin
