@@ -1,0 +1,105 @@
+unit LCD_C75;
+//----------Библиотека дисплея Siemens C75-------------
+//           Зеленый текстолит LPH9157-2
+//-----------------------------------------------------
+//
+
+
+var
+LCD_Clk,LCD_Data,LCD_RS,LCD_CS,LCD_Reset:sbit; sfr; external;
+const
+CMD:boolean=0;
+DAT:boolean=1;
+RED:word=0xF800;
+GREEN:word=0x07E0;
+BLUE:word=0x001F;
+BLACK:word=0x0000;
+WHITE:word=0xFFFF;
+YELLOW:word=0xFFE0; //Желтый
+CYAN:word=0x07FF; //Голубой
+MAGENTA:word=0xF81F; //Фиолетовый
+
+procedure write(w:boolean;datt:byte);
+procedure writec(datt:word);
+procedure koord(x,y:byte);
+procedure pixel(x,y:byte; color:word);
+procedure LCD_init();
+
+implementation
+
+procedure write(w:boolean;datt:byte); //запись данных или команды 8 бит в LCD
+var i:byte;
+begin
+if w=1 then LCD_RS:=w
+   else
+   begin
+   LCD_CS:=1;
+   LCD_RS:=w;
+   LCD_CS:=0;
+   end;
+LCD_Clk:=0;
+for i:=0 to 7 do
+    begin
+    LCD_Data:=datt.B7;
+    LCD_Clk:=1;
+    datt:=datt shl 1;
+    LCD_Clk:=0;
+    end;
+end;
+procedure writec(datt:word); //запись данных 16 бит в LCD
+var i,h,l:byte;
+begin
+h:=Hi(datt);
+l:=Lo(datt);
+LCD_RS:=1;
+LCD_Clk:=0;
+for i:=0 to 7 do
+    begin
+    LCD_Data:=h.B7;
+    LCD_Clk:=1;
+    h:=h shl 1;
+    LCD_Clk:=0;
+    end;
+for i:=0 to 7 do
+    begin
+    LCD_Data:=l.B7;
+    LCD_Clk:=1;
+    l:=l shl 1;
+    LCD_Clk:=0;
+    end;
+end;
+procedure koord(x,y:byte); //Установка координаты на дисплее
+begin
+write(cmd,0x2a);
+write(dat,y);
+write(dat,132);
+write(cmd,0x2b);
+write (dat,x);
+write(dat,176);
+end;
+procedure pixel(x,y:byte; color:word); //рисование пикселя опрю цвета на дисплее
+begin
+koord(x,y);
+write(cmd,0x2c);
+writec(color);
+end;
+procedure LCD_init();
+begin
+LCD_RS:=0;
+LCD_CS:=1;
+LCD_RESET:=0;
+delay_ms(500);
+LCD_RESET:=1;
+delay_ms(500);
+Write(cmd,0x01);
+delay_ms(20);
+write(cmd,0x36);//Memory Access Control
+write(dat,0x80);
+Write(cmd,0x11); //sleep out
+delay_ms(20);
+write(cmd,0x3a); //interfase pixel format
+Write(dat,0x55);
+delay_ms(20);
+write(cmd,0x29); //Display ON
+end;
+end.
