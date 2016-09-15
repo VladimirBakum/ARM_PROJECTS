@@ -1,0 +1,1 @@
+lmflash --verify --reset Release\Exe\1602_lcd.bin
