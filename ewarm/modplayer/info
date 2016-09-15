@@ -1,0 +1,32 @@
+Added to the player:
+1. Visualizer that uses the stellaris launchpad RGB 
+(uses red and blue - left and right cahnnels)
+2. S3M and MOD formats supported (detected by extension)
+3. SD card support (using SPI mode on SSI0)
+
+Limitations:
+1. Because of the memory constraints the player only support 
+   up-to 14 channels mods
+2. Some mod/s3m will not be able to played smoothly because 
+   our far buffers are quite small.
+3. There are only 1100 bytes of free RAM left.
+4. Put all the mods in a folder called "mods" in the root of the sd card
+    I'm not sure fat32 is supported....
+
+I've added a small LC filter to the output to limit the high frequency signals.
+Here is a site that is help-full link , you don't have to use it 
+but it gives a better sound.
+(My cutoff frequency is 10Khz)
+
+Schematics:
+Audio: 
+          Left PB1
+          Right PB0
+SD card:
+          SCK (clock) - PA2
+          CS (Chip select) - PA3
+          MOSI (Master out slave in - DI) - PA5
+          MISO (Master in slave out - DO) - PA4
+
+Usage:
+Right button next song, Left button previous song.

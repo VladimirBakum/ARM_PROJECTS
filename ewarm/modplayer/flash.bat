@@ -1,0 +1,1 @@
+lmflash --verify --reset Release\Exe\player.bin
